@@ -20,4 +20,5 @@ phases:
 artifacts:
   files:
     # template-export.yml
+    # Test
     - HelloWorld-1.0.jar
