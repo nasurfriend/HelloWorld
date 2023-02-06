@@ -21,4 +21,5 @@ artifacts:
   files:
     # template-export.yml
     - HelloWorld-1.0.jar
+    - scripts/*
     - appspec.yml
