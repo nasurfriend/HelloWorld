@@ -1,17 +1,26 @@
-version: 0.2
+version: 0.0
+os: linux
 
-phases:
-  install:
-    runtime-versions:
-      java: corretto8
+files:
+  - source: /
+    destination: /home/ec2-user/server
 
-  build:
-    commands:
-      - mvn clean package --quiet
+permissions:
+  - object: /
+    pattern: "**"
+    owner: ec2-user
+    group: ec2-user
 
-artifacts:
-  discard-paths: yes  # yamllint disable-line rule:truthy
-  files:
-    - target/*
-    - scripts/*
-    - appspec.yml
+hooks:
+  ApplicationStop:
+    - location: stop.sh
+      timeout: 20
+      runas: ec2-user
+  ApplicationStart:
+    - location: start.sh
+      timeout: 20
+      runas: ec2-user
+  ValidateService:
+    - location: validate.sh
+      timeout: 120
+      runas: ec2-user
