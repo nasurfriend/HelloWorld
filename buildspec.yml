@@ -24,3 +24,4 @@ artifacts:
     - HelloWorld-1.0.jar
     - scripts/*
     - appspec.yml
+
