@@ -18,6 +18,7 @@ phases:
       # rm -rf target tst src buildspec.yml pom.xml HelloWorld-1.0.jar
       # aws cloudformation package --template template.yml --s3-bucket $S3_BUCKET --output-template template-export.yml
 artifacts:
+  discard-paths: yes
   files:
     # template-export.yml
     - HelloWorld-1.0.jar
