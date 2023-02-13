@@ -11,20 +11,20 @@ phases:
     commands:
       - echo Test started on `date`
       - mvn clean compile test
-      # aws ecr get-login-password --region ap-northeast-1 | docker login --username AWS --password-stdin 431386697915.dkr.ecr.ap-northeast-1.amazonaws.com
+      - aws ecr get-login-password --region ap-northeast-1 | docker login --username AWS --password-stdin 431386697915.dkr.ecr.ap-northeast-1.amazonaws.com
   build:
     commands:
       - echo Build started on `date`
       - mvn package shade:shade
       - mv target/HelloWorld-1.0.jar .
       - unzip HelloWorld-1.0.jar
-      # docker build -t helloworld .
-      # docker tag helloworld:latest 431386697915.dkr.ecr.ap-northeast-1.amazonaws.com/helloworld:latest
+      - docker build -t helloworld .
+      - docker tag helloworld:latest 431386697915.dkr.ecr.ap-northeast-1.amazonaws.com/helloworld:latest
       # rm -rf target tst src buildspec.yml pom.xml HelloWorld-1.0.jar
       # aws cloudformation package --template template.yml --s3-bucket $S3_BUCKET --output-template template-export.yml
   post_build:
     commands:
-      # docker push 431386697915.dkr.ecr.ap-northeast-1.amazonaws.com/helloworld:latest
+      - docker push 431386697915.dkr.ecr.ap-northeast-1.amazonaws.com/helloworld:latest
 artifacts:
   discard-paths: yes
   files:
