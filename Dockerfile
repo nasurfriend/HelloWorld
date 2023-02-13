@@ -5,7 +5,7 @@ RUN mvn -f /home/app/pom.xml clean package
 
 FROM openjdk:12-alpine
 
-COPY --from=build /home/app/target/elloWorld-1.0.jar tmp/elloWorld-1.0.jar
+COPY --from=build /home/app/target/HelloWorld-1.0.jar tmp/HelloWorld-1.0.jar
 EXPOSE 8085
 ENV MY_ENV=1
-ENTRYPOINT ["java", "-jar","/tmp/elloWorld-1.0.jar"]
+ENTRYPOINT ["java", "-jar","/tmp/HelloWorld-1.0.jar"]
