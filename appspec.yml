@@ -9,6 +9,7 @@ Resources:
         LoadBalancerInfo:
           ContainerName: "helloworld"
           ContainerPort: 8000
+          
 #        PlatformVersion: "[Version number, ex: 1.3.0]"
 #        NetworkConfiguration:
 #          AwsvpcConfiguration:
