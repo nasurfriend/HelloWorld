@@ -29,7 +29,7 @@ artifacts:
   discard-paths: yes
   files:
     # template-export.yml
-    - imagedefinations.json
+    - imagedefinitions.json
     - HelloWorld-1.0.jar
     - scripts/*
     - appspec.yml
