@@ -5,7 +5,7 @@
       "TargetService": {
         "Type": "AWS::ECS::Service",
         "Properties": {
-          "TaskDefinition": "431386697915.dkr.ecr.ap-northeast-1.amazonaws.com/helloworld:latest",
+          "TaskDefinition": "taskdef.json",
           "LoadBalancerInfo": {
             "ContainerName": "helloworld",
             "ContainerPort": 8000
