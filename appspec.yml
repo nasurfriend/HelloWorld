@@ -1,27 +1,24 @@
+# https://docs.aws.amazon.com/codedeploy/latest/userguide/reference-appspec-file.html#appspec-reference-ecs
 version: 0.0
-os: linux
-
-files:
-  - source: /
-    destination: /home/ec2-user/server
-
-permissions:
-  - object: /
-    pattern: "**"
-    owner: ec2-user
-    group: ec2-user
-
-hooks:
-  ApplicationStop:
-    - location: stop.sh
-      timeout: 20
-      runas: ec2-user
-  ApplicationStart:
-    - location: start.sh
-      timeout: 20
-      runas: ec2-user
-  ValidateService:
-    - location: validate.sh
-      timeout: 120
-      runas: ec2-user
-      
+# https://docs.aws.amazon.com/codedeploy/latest/userguide/reference-appspec-file-structure-resources.html#reference-appspec-file-structure-resources-ecs
+Resources:
+  - TargetService:
+      Type: AWS::ECS::Service
+      Properties:
+        TaskDefinition: "taskdef.json"
+        LoadBalancerInfo:
+          ContainerName: "helloworld"
+          ContainerPort: 8000
+#        PlatformVersion: "[Version number, ex: 1.3.0]"
+#        NetworkConfiguration:
+#          AwsvpcConfiguration:
+#            Subnets: ["SubnetId1","SubnetId2"]
+#            SecurityGroups: ["ecs-security-group-1"]
+#            AssignPublicIp: "ENABLED-or-DISABLED"
+# https://docs.aws.amazon.com/codedeploy/latest/userguide/reference-appspec-file-structure-hooks.html#appspec-hooks-ecs
+#Hooks:
+#  - BeforeInstall: "BeforeInstallHookLambdaFunctionName"
+#  - AfterInstall: "AfterInstallHookLambdaFunctionName"
+#  - AfterAllowTestTraffic: "AfterAllowTestTrafficHookLambdaFunctionName"
+#  - BeforeAllowTraffic: "SanityTestHookLambdaFunctionName"
+#  - AfterAllowTraffic: "ValidationTestHookLambdaFunctionName"
