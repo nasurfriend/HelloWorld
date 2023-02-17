@@ -5,7 +5,6 @@ phases:
     runtime-versions:
         docker: 20    
     commands:
-      # Upgrade AWS CLI to the latest version
       - pip install --upgrade awscli
   pre_build:
     commands:
@@ -21,20 +20,24 @@ phases:
       - mvn package shade:shade
       - mv target/HelloWorld-1.0.jar .
       - unzip HelloWorld-1.0.jar
+      - echo building image...
       - docker build -t $REPOSITORY_URI:latest .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
-      # rm -rf target tst src buildspec.yml pom.xml HelloWorld-1.0.jar
-      # aws cloudformation package --template template.yml --s3-bucket $S3_BUCKET --output-template template-export.yml
   post_build:
     commands:
+      - echo Pushing file to registry...
       - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo Writing image definitions file...
       - printf '[{"name":"helloworld","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - docker build -t helloworld .
+      - docker tag helloworld:latest 431386697915.dkr.ecr.ap-northeast-1.amazonaws.com/helloworld:latest
+  post-build:
+    commands:
+      - docker push 431386697915.dkr.ecr.ap-northeast-1.amazonaws.com/helloworld:latest
 artifacts:
   discard-paths: yes
   files:
-    # template-export.yml
     - imagedefinitions.json
     - HelloWorld-1.0.jar
     - scripts/*
