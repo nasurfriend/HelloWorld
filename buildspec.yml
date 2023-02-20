@@ -9,7 +9,9 @@ phases:
   pre_build:
     commands:
       - echo Test started on `date`
+      # Require to change on the following line for prebuild
       - mvn clean compile test
+      # Require to change on the following line for prebuild
       - aws ecr get-login-password --region ap-northeast-1 | docker login --username AWS --password-stdin 431386697915.dkr.ecr.ap-northeast-1.amazonaws.com
       - REPOSITORY_URI=431386697915.dkr.ecr.ap-northeast-1.amazonaws.com/helloworld
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
@@ -17,7 +19,9 @@ phases:
   build:
     commands:
       - echo Build started on `date`
+      # build command to change here
       - mvn package shade:shade
+      # build command to change here
       - mv target/HelloWorld-1.0.jar .
       - unzip HelloWorld-1.0.jar
       - echo building image...
